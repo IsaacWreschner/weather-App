@@ -1,0 +1,48 @@
+
+<div>
+    <input placeholder = "תחזית למחקום אחר">
+</div>
+
+<div *ngIf = "weatherResponse?.getStatus() !== 'none'">
+    
+</div>
+
+<ng-template #success>
+    <div>
+        <!-- get by location input-->
+       
+       <div *ngIf>
+           <!-- location-->
+           <div>
+              <span></span>
+           </div>
+           <!-- datetime-->
+           <div>
+               <span></span>
+           </div>
+           <!-- weather-->
+           <div>
+               <span></span>
+           </div>
+       </div> 
+    </div>
+ </ng-template>
+
+
+
+<ng-template #httpError>
+   
+</ng-template>
+
+<ng-template #invalid>
+
+</ng-template>
+
+<ng-template #fetching>
+
+</ng-template>
+
+<ng-template #no-geolocation-api>
+     {{noGeolocationMsg}}
+</ng-template>
+
