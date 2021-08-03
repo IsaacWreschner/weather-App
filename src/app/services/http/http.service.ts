@@ -10,7 +10,7 @@ export class HttpService {
 
   constructor(private http:HttpClient) { }
 
-  getWeather(lat:number,lng:number,unit:'Metric'|'Imperial' = 'Metric'){
-     return this.http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${unit}&appid=${WEATHER_API_KEY}`)
+  getWeatherByCoordinates(lat:number,lng:number,unit:'Metric'|'Imperial' = 'Metric'){
+     return this.http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${unit}&lang=he&appid=${WEATHER_API_KEY}`)
   }
 }

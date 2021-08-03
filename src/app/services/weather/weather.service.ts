@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CWeatherResponse } from '../../shared/classes/weather/CWeatherResponse';
+import { TWeatherInfo } from '../../shared/types/weather/TWeatherInfo';
 import { HttpService } from '../http/http.service';
 
 @Injectable({
@@ -8,6 +9,8 @@ import { HttpService } from '../http/http.service';
 })
 export class WeatherService {
   weatherResponse:CWeatherResponse = new CWeatherResponse();
+  /** for the LS because we need to store celsius 
+  additionalResponseForCelsius:CWeatherResponse = new CWeatherResponse();*/
   constructor(private httpService:HttpService) { }
 
   getWeatherByCoordinates(
@@ -19,9 +22,10 @@ export class WeatherService {
             this.httpService.getWeatherByCoordinates(lat,lng,this._getUnitNameForApi(unit))
                .subscribe(
                   res =>{
-                     this.weatherResponse.setResponse(res)
+                     this.weatherResponse.setResponse(<TWeatherInfo>res)
                   },
                   err => {
+                     console.log(err)
                      this.weatherResponse.setError(err);
                   }
                )

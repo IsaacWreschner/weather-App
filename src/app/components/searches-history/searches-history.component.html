@@ -1,0 +1,51 @@
+
+
+<div class = "_gflex-start mt-5 px-4">
+    <input 
+      class = "_input"
+      placeholder = "חפש לפי מיקום">
+</div>
+
+<div>
+
+</div>
+<div *ngIf = "status === 'find'"
+    class="py-3  _gscroll-bar px-4" 
+     style="overflow:auto;min-height: 400px;max-height:800px;text-align: right;">
+    <table class=" m-0">
+      <tr>
+        <th 
+          style = "width:250px;text-align: start;" 
+          class="no-wrap  px-2 "
+          >
+          <div>מקום </div>
+        </th>
+        <th 
+          style = "width:200px;text-align: start;"
+          class="no-wrap  px-2 " 
+          >
+          <div>unix time</div>
+        </th>
+        <th style = "width:150px;text-align: start;"  
+            class="no-wrap  px-2 "
+            >
+          <div>מעלות</div>
+        </th>
+       </tr>
+
+      <tr *ngFor="let search of allSearches">
+        <td title="">
+          {{search.name}},&nbsp;
+          {{search.coord?.lat}},&nbsp;
+          {{search.coord?.lon}}
+        </td>
+        <td>
+            {{search.dt}}
+        </td>
+        <td>
+            {{search.main?.temp}}
+        </td>
+      </tr>
+
+    </table>
+  </div>

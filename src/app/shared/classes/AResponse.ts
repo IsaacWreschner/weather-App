@@ -4,11 +4,13 @@ type TResponseStatus = 'none'|'fetching'|'httpError'|'illegal'|'success';
 
 export abstract class AHttpResponse<TResponse extends object>{
     private status:BehaviorSubject<TResponseStatus> = 
-        new BehaviorSubject('none');
+        new BehaviorSubject(null);
     private error:any;
     private response:TResponse;
     abstract isResLegal(response:TResponse):boolean;
-    constructor(){}
+    constructor(){
+        this.status.next('none');
+    }
 
    
     
@@ -17,7 +19,7 @@ export abstract class AHttpResponse<TResponse extends object>{
     }
 
     getStatus(){
-        return this.status;
+        return this.status.value;
     }
 
     setStatus(status:TResponseStatus){
@@ -31,6 +33,7 @@ export abstract class AHttpResponse<TResponse extends object>{
         this.setStatus('illegal');
         return this;
        }
+        this.response = res;
         this.setStatus('success');
         return this;
     }

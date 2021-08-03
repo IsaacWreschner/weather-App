@@ -1,0 +1,13 @@
+._wrapper{
+    min-height: 500px;
+}
+
+._input {
+    height:42px;
+    width:300px;
+	
+}
+
+._input:hover{
+    background-color:rgb(250, 250, 250);
+ }

@@ -2,3 +2,36 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+._gflex-center{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items:center;
+ }
+
+ 
+
+._gflex-end{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:flex-end;
+    align-items:center;
+}
+
+
+._gflex-start{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;
+    align-items:center;
+}
+
+._gflex-grow{
+	flex-grow:1;
+}
+
+._gpointer{
+	cursor: pointer;
+}
+

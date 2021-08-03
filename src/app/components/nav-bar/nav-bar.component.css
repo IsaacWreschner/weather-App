@@ -1,0 +1,11 @@
+._wrapper{
+    align-items: stretch;
+}
+
+ul{
+    cursor: pointer;
+}
+
+ul:hover{
+    color: rgb(4, 109, 170);
+}

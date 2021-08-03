@@ -1,28 +1,85 @@
 
-<div>
-    <input placeholder = "תחזית למחקום אחר">
+<div class = "_gflex-center mt-5">
+    <input 
+      class = "_input"
+      placeholder = "חפש תחזית למיקום..">
 </div>
 
-<div *ngIf = "weatherResponse?.getStatus() !== 'none'">
-    
+
+<div class = "_wrapper _gflex-center">
+    <!-- state === none-->
+    <div *ngIf = "weatherResponse?.getStatus() === 'none' 
+                  && geoLocation.status === 'disabled'">
+         <ng-container *ngTemplateOutlet="noGeolocation"></ng-container>
+   </div>
+   <!-- state === fetching-->
+   <div *ngIf = "weatherResponse?.getStatus() === 'fetching'">
+    <ng-container 
+      *ngTemplateOutlet="fetching"
+       >
+    </ng-container>
+   </div>
+   <!-- state === error-->
+    <div *ngIf = "weatherResponse?.getStatus() === 'httpError' 
+                 || weatherResponse?.getStatus() === 'invalid'"
+          >
+        <ng-container 
+        *ngTemplateOutlet="error"
+        ></ng-container>
+    </div>
+   <!-- state === success-->
+    <div *ngIf = "weatherResponse?.getStatus() === 'success'">
+        <ng-container 
+        *ngTemplateOutlet="success;context:{$implicit:weatherResponse.getResponse()}"
+        ></ng-container>
+    </div>
 </div>
 
-<ng-template #success>
-    <div>
+
+
+
+
+
+
+<ng-template #success let-response>
+    <div >
         <!-- get by location input-->
-       
-       <div *ngIf>
+       <div >
            <!-- location-->
-           <div>
-              <span></span>
+           <div id = "weather-location">
+              <span>{{response.coord.lat}},{{response.coord.lon}}</span>
+              <span>{{response.name || ''}}</span>
            </div>
            <!-- datetime-->
-           <div>
-               <span></span>
+           <div id = "weather-datetime">
+               <span>{{dateTimeOnFetch}}</span>
            </div>
-           <!-- weather-->
+           <!-- temp-->
            <div>
-               <span></span>
+               <span>{{response.main.temp}}</span>
+               <!--unit-->
+               <span id = "unit-icon">&#8451;</span>
+           </div>
+           <!-- weather icon-->
+           <div>
+               <mat-icon 
+                   *ngIf = "response.main.temp >= 15"
+                   id = "icon-sunny" 
+                   >
+                      wb_sunny
+                </mat-icon>
+               <mat-icon 
+                  *ngIf = "response.main.temp >= 1 && 15 - response.main.temp >= 0"
+                  id = "icon-cloud"
+                  >
+                  cloud
+                </mat-icon>
+               <mat-icon 
+                 *ngIf = "1 - response.main.temp >= 0"
+                 id = "icon-snow">
+                 ac_unit
+                </mat-icon>
+              <span></span>
            </div>
        </div> 
     </div>
@@ -30,19 +87,34 @@
 
 
 
-<ng-template #httpError>
-   
-</ng-template>
 
-<ng-template #invalid>
 
+<ng-template #error>
+    <div class = "text-secondary">
+        <h3>
+          אירעה שגיאה
+        </h3>
+        <div style = "text-align: center;">
+         בדוק את החיבור שלך או נסה בעוד כמה דקות
+        </div>
+    </div>
 </ng-template>
 
 <ng-template #fetching>
-
+   <div>
+       <mat-spinner diameter = "35"></mat-spinner>
+   </div>
 </ng-template>
 
-<ng-template #no-geolocation-api>
-     {{noGeolocationMsg}}
+<ng-template #noGeolocation>
+    <div class = "text-secondary">
+        <h3>
+            אין באפשרות לדעת 
+            מה המיקום שלך ...
+        </h3>
+        <div style = "text-align: center;">
+            {{geoLocation.messageFromBrowser}}
+        </div>
+    </div>
 </ng-template>
 
