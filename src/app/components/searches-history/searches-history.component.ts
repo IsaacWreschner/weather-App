@@ -21,6 +21,7 @@ export class SearchesHistoryComponent implements OnInit {
   filterSearches(locationSearchKey = ''){
     // Search only for key who includes the word 'search'
     this.status = 'searching';
+    this.allSearches = [];
     this.LSservice.getKeys().map(key => {
       let search = this.LSservice.get(key);
       if(key.includes('search')){

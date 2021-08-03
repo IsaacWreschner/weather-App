@@ -1,27 +1,62 @@
 
-<div class = "_gflex-center mt-5">
-    <input 
-      class = "_input"
-      placeholder = "חפש תחזית למיקום..">
+
+<!-- HEADER (query)-->
+<div style = "align-items: stretch;"
+     class = "_gflex-center mt-5">
+    <div class = "m-3">
+        <input 
+        appGoogleAutocomplete
+        class = "_input"
+        placeholder = "חפש תחזית למיקום..">
+    </div>
+    <div class = "m-3 bg-light _gflex-center">
+        <div class = "pt-2">
+            <mat-radio-group 
+            (change) = "fetchWeather()"
+            [(ngModel)] = "currWeatherQuery.unit"
+            aria-label="בחר יחידת מידה">
+             <mat-radio-button 
+                value="Celsius"
+                class = "mx-4"
+                >
+                 צליזוס
+             </mat-radio-button>
+             <mat-radio-button 
+               value = "Fahrenheit"
+               class = "mx-4"
+                 >
+                 פרנהייט
+             </mat-radio-button>
+         </mat-radio-group>
+        </div>
+     </div>
 </div>
 
 
+
+<!-- BODY (response)-->
 <div class = "_wrapper _gflex-center">
-    <!-- state === none-->
-    <div *ngIf = "weatherResponse?.getStatus() === 'none' 
-                  && geoLocation.status === 'disabled'">
-         <ng-container *ngTemplateOutlet="noGeolocation"></ng-container>
-   </div>
+    <!-- state === none (never fetch)-->
+    <div *ngIf = "weatherResponse?.getStatus() === 'none'">
+        <div *ngIf = "geoLocation.status === 'not-granted'">
+            <ng-container *ngTemplateOutlet="noGeolocation"></ng-container>
+        </div>
+        <div *ngIf = "geoLocation.status === 'fetching-from-navigator'">
+            <ng-container *ngTemplateOutlet="fetchingLocFromNavigator"></ng-container>
+       </div>
+    </div> 
+
+         
    <!-- state === fetching-->
    <div *ngIf = "weatherResponse?.getStatus() === 'fetching'">
     <ng-container 
-      *ngTemplateOutlet="fetching"
+      *ngTemplateOutlet="fetchingWeather"
        >
     </ng-container>
    </div>
    <!-- state === error-->
     <div *ngIf = "weatherResponse?.getStatus() === 'httpError' 
-                 || weatherResponse?.getStatus() === 'invalid'"
+                 || weatherResponse?.getStatus() === 'illegal'"
           >
         <ng-container 
         *ngTemplateOutlet="error"
@@ -52,13 +87,22 @@
            </div>
            <!-- datetime-->
            <div id = "weather-datetime">
-               <span>{{dateTimeOnFetch}}</span>
+               <span>{{datetimeHumanized}}</span>
            </div>
            <!-- temp-->
            <div>
                <span>{{response.main.temp}}</span>
                <!--unit-->
-               <span id = "unit-icon">&#8451;</span>
+               <span *ngIf = "currWeatherQuery.unit === 'Celsius'" 
+                   id = "unit-icon"
+                   >
+                       &#8451;
+                </span>
+               <span *ngIf = "currWeatherQuery.unit === 'Fahrenheit'" 
+                  id = "unit-icon"
+                  >
+                  &#8457;
+                </span>
            </div>
            <!-- weather icon-->
            <div>
@@ -90,7 +134,8 @@
 
 
 <ng-template #error>
-    <div class = "text-secondary">
+    <div id = "error-result" 
+        class = "text-secondary">
         <h3>
           אירעה שגיאה
         </h3>
@@ -100,14 +145,31 @@
     </div>
 </ng-template>
 
-<ng-template #fetching>
-   <div>
-       <mat-spinner diameter = "35"></mat-spinner>
+<ng-template #fetchingWeather>
+   <div id = "fetching-weather">
+    <h6 class = "text-secondary _gflex-center" >
+        <mat-spinner diameter = "35"></mat-spinner>
+        &nbsp;
+        מתחבר לשירות התחזית...
+    </h6>
    </div>
 </ng-template>
 
+<ng-template #fetchingLocFromNavigator>
+    <div id = "fetching-loc-from-navigator">
+        <h6 class = "text-secondary _gflex-center" >
+            <mat-spinner diameter = "35"></mat-spinner>
+            &nbsp;
+            מקבל מהדפדפן את המיקום שלך
+            ...
+        </h6>
+    </div>
+ </ng-template>
+
 <ng-template #noGeolocation>
-    <div class = "text-secondary">
+    <div id = "no-geolocation" 
+         class = "text-secondary"
+         >
         <h3>
             אין באפשרות לדעת 
             מה המיקום שלך ...

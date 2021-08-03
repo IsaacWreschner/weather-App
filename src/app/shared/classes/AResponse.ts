@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { BehaviorSubject, Subscription } from "rxjs";
 
 type TResponseStatus = 'none'|'fetching'|'httpError'|'illegal'|'success';
@@ -38,7 +39,7 @@ export abstract class AHttpResponse<TResponse extends object>{
         return this;
     }
 
-    setError(err:any){
+    setError(err){
       this.setStatus('httpError');
       this.error = err;
       return this;

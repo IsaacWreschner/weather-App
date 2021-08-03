@@ -11,13 +11,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
+import { GoogleAutocompleteDirective } from './directives/google-autocomplete.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
     MainPageComponent,
+    GoogleAutocompleteDirective,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -25,7 +31,8 @@ import {MatIconModule} from '@angular/material/icon';
     NgbModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -47,14 +47,18 @@ describe('MainPageComponent', () => {
     expect(component.subscriptions.length).toBeGreaterThanOrEqual(1);
   })
 
-  it('should call to  _fetchWeatherForCurrentLocation() function on Init',()=> {
-    spyOn((fixture.componentInstance as any),"_fetchWeatherForCurrentLocation").and.callThrough();
+  it('should call to  _getCurrentLocationAndFetch() function on Init',()=> {
+    spyOn((fixture.componentInstance as any),"_getCurrentLocationAndFetch").and.callThrough();
     component.ngOnInit();
-    expect((component as any)._fetchWeatherForCurrentLocation).toHaveBeenCalled();
+    expect((component as any)._getCurrentLocationAndFetch).toHaveBeenCalled();
   })
 
   it(`geolocation status should always be 'none' when user search manually for other location`,()=> {
-      
+    expect(1).toEqual(0); 
+  })
+
+  it(`should call function 'fetch weather' if temp unit changes` ,()=>{
+    expect(1).toEqual(0);
   })
 
   it('should destroy all subscriptions on Destroy',()=> {
@@ -73,11 +77,19 @@ describe('MainPageComponent', () => {
    */
 
   it('should show  spinner when fetching',()=> {
-   
+      
   })
 
-  it('should show error message when http error or invalid or when geolocation status is disabled',()=> {
-      
+  it('should show error message when http error or invalid',()=> {
+     component.weatherResponse.setError(null);
+     fixture.detectChanges();
+     let compiled = fixture.debugElement.nativeElement;
+     expect(compiled.querySelector('#error-result')).toBeTruthy();
+     component.weatherResponse.setResponse(<any>{});//invalid
+     fixture.detectChanges();
+     compiled = fixture.debugElement.nativeElement;
+     console.log(component.weatherResponse.getStatus())
+     expect(compiled.querySelector('#error-result')).toBeTruthy();
   })
 
   it('testing the view according to different weather responses scenarios',()=>{
@@ -149,9 +161,18 @@ describe('MainPageComponent', () => {
     );
    })
 
-  it('degree symbol should be farenheit when user has selected it',()=>{
-    
+  it(`Degree symbol should be farenheit if weatherQuery.unit is 'Farenheit `,()=>{
+    let response = mockResponse();
+    component.weatherResponse.setResponse(response);
+    component.currWeatherQuery.unit = 'Fahrenheit';
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('#unit-icon').textContent).toContain(
+      '℉'
+    );
   })
+
+  
 
   /**
    * 
@@ -163,8 +184,13 @@ describe('MainPageComponent', () => {
       let mocked = mockResponse();
       component.weatherResponse.setResponse(mocked);
       let LSservice:LocalStorageService = TestBed.inject(LocalStorageService)
-      expect(LSservice.get(`search-${component.dateTimeOnFetch}-${mocked.name}`))
+      expect(LSservice.get(`search-${component.datetimeHumanized}-${mocked.name}`))
          .toEqual(mocked)
+  })
+
+  it(`should call weather service's 'getWeatherByCoordinates()' when fetch weather`,()=> {
+    component.fetchWeather();
+    expect(1).toEqual(0);
   })
 });
 
