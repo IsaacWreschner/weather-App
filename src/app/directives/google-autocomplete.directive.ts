@@ -9,7 +9,7 @@ declare const google: any;
 })
 export class GoogleAutocompleteDirective {
 
-  @Output()btLocationChanges = new EventEmitter();
+  @Output()locationChanges = new EventEmitter();
   
   location:TLocation;
   googleAutoComplete:any;
@@ -51,7 +51,7 @@ export class GoogleAutocompleteDirective {
        this.location = this._pipeGoogleRes(places);
        //To allow angular automatic detect changes in parent's html template.
        this.ngZone.run(()=>{
-         this.btLocationChanges.emit(this.location);
+         this.locationChanges.emit(this.location);
        })
        this._resetGoogleAC();
      }

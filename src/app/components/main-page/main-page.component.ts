@@ -74,7 +74,7 @@ export class MainPageComponent implements OnInit {
     let res = this._clone(this.weatherResponse.getResponse()) //clone
     let unixTimeInMillsecs = new Date(res.dt * 1000)
     this.datetimeHumanized = moment(unixTimeInMillsecs)
-      .format('MM/DD HH:mm');
+      .format('HH:mm MM/DD');
     /**store always Celsius */
     if(this.currWeatherQuery.unit === 'Fahrenheit')
         res.main.temp = this._convertFahrenheitToCelsius(res.main.temp);

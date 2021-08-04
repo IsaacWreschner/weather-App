@@ -35,3 +35,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 	cursor: pointer;
 }
 
+._gscroll::-webkit-scrollbar {
+    width: 11px;
+    height:12px;
+  }
+
+
+/* Track */
+  
+._gscroll::-webkit-scrollbar-track {
+    margin-top:4px;
+    
+    border-radius: 10px;
+    
+  }
+  
+
+   
+  /* Handle */
+  
+  ._gscroll::-webkit-scrollbar-thumb {
+    background: gray; 
+    border-radius: 10px;
+    z-index: 100;
+  }
+  
+  /* Handle on hover */
+  
+ ._gscroll::-webkit-scrollbar-thumb:hover {
+    background: #da9939; 
+  }
+

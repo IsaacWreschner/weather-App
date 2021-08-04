@@ -1,15 +1,33 @@
 <div 
     class = "_gflex-start">
-    <div class = "_gflex-grow _gflex-start ">
+    <div id = "desktop-tablet-menu"
+         class = "_gflex-grow _gflex-start ">
             <li class = "_gflex-start text-primary">
-                <ul routerLink = "/">דף הראשי</ul>
-                <ul routerLink = "/searches-history">היסטורית חיפשוים</ul>
+                <ul id = "menu-item-main-page" routerLink = "/">דף ראשי</ul>
+                <ul id = "menu-item-searches-history" routerLink = "/searches-history">היסטורית חיפושים</ul>
             </li>
     </div>
+    <div id = "mobile-menu"
+         class = "_gflex-grow _gflex-start ">
+         <button mat-icon-button [matMenuTriggerFor]="menu" >
+            <mat-icon>more_vert</mat-icon>
+        </button>
+          <mat-menu #menu>
+            <button mat-menu-item >
+              <span id = "menu-item-main-page" routerLink = "/">דף ראשי</span>
+            </button>
+            <button mat-menu-item>
+              <span 
+                 id = "menu-item-searches-history"
+                 routerLink = "/searches-history">היסטורית חיפשוים</span>
+            </button>
+          </mat-menu>  
+    </div>
     <div routerLink = "/" class = "_gpointer ml-4 p-3 text-secondary">
-        <h2>Weather App</h2>
+        <h2 id = "app-logo">Weather App</h2>
     </div>
   </div>
 <mat-divider>
 
 </mat-divider>
+

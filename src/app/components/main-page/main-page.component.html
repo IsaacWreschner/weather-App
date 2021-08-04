@@ -6,6 +6,7 @@
     <div class = "m-3">
         <input 
         appGoogleAutocomplete
+        (locationChanges) = "onSearchLocation($event)"
         class = "_input"
         placeholder = "חפש תחזית למיקום..">
     </div>
@@ -37,14 +38,17 @@
 <!-- BODY (response)-->
 <div class = "_wrapper _gflex-center">
     <!-- state === none (never fetch)-->
-    <div *ngIf = "weatherResponse?.getStatus() === 'none'">
-        <div *ngIf = "geoLocation.status === 'not-granted'">
-            <ng-container *ngTemplateOutlet="noGeolocation"></ng-container>
-        </div>
-        <div *ngIf = "geoLocation.status === 'fetching-from-navigator'">
-            <ng-container *ngTemplateOutlet="fetchingLocFromNavigator"></ng-container>
-       </div>
-    </div> 
+    <div *ngIf = "geoLocation.status === 'not-granted'">
+            <ng-container *ngTemplateOutlet="noGeolocation">
+
+            </ng-container>
+    </div>
+    <div *ngIf = "geoLocation.status === 'fetching-from-navigator'">
+            <ng-container *ngTemplateOutlet="fetchingLocFromNavigator">
+
+            </ng-container>
+    </div>
+   
 
          
    <!-- state === fetching-->
@@ -63,7 +67,8 @@
         ></ng-container>
     </div>
    <!-- state === success-->
-    <div *ngIf = "weatherResponse?.getStatus() === 'success'">
+    <div *ngIf = "weatherResponse?.getStatus() === 'success'
+                  && geoLocation.status !== 'fetching-from-navigator'">
         <ng-container 
         *ngTemplateOutlet="success;context:{$implicit:weatherResponse.getResponse()}"
         ></ng-container>
@@ -77,21 +82,29 @@
 
 
 <ng-template #success let-response>
-    <div >
-        <!-- get by location input-->
-       <div >
+    <div  >
+        
+       <div class = "_gflex-center">
            <!-- location-->
-           <div id = "weather-location">
-              <span>{{response.coord.lat}},{{response.coord.lon}}</span>
-              <span>{{response.name || ''}}</span>
+           <div class = "m-2 text-secondary" 
+                id = "weather-location"
+               >
+               <div id = "location-name">
+                {{response.name || ''}}
+               </div>
+               <div id = "location-coord">
+                {{response.coord.lat}},&nbsp;{{response.coord.lon}}
+               </div>
            </div>
            <!-- datetime-->
-           <div id = "weather-datetime">
-               <span>{{datetimeHumanized}}</span>
+           <div class = "m-2 mx-4 text-secondary" 
+                 id = "weather-datetime">
+               <span >{{datetimeHumanized}}</span>
            </div>
            <!-- temp-->
-           <div>
-               <span>{{response.main.temp}}</span>
+           
+           <div id = "weather-temp"
+                class = "m-2  text-secondary " >
                <!--unit-->
                <span *ngIf = "currWeatherQuery.unit === 'Celsius'" 
                    id = "unit-icon"
@@ -103,10 +116,12 @@
                   >
                   &#8457;
                 </span>
+                <span>{{response.main.temp}}</span>
            </div>
            <!-- weather icon-->
-           <div>
+           <div class = "m-2 mr-5">
                <mat-icon 
+                    class = "text-secondary"
                    *ngIf = "response.main.temp >= 15"
                    id = "icon-sunny" 
                    >

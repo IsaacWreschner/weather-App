@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { NavBarComponent } from './nav-bar.component';
 
@@ -13,7 +16,7 @@ describe('NavBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ NavBarComponent ],
-      imports:[MatDividerModule]
+      imports:[MatDividerModule,MatMenuModule,MatButtonModule,MatIconModule]
     })
     .compileComponents();
   });
@@ -45,9 +48,9 @@ describe('NavBarComponent', () => {
     })
   })
 
-  it('All nav bar elements should have a correct link',()=>{
-    /** need to implements */
-  })
+  /*it('All nav bar elements should have a correct link',()=>{
+    /** need to implements 
+  })*/
 });
 
 

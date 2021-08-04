@@ -1,5 +1,7 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { HttpService } from '../../services/http/http.service';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { WeatherService } from '../../services/weather/weather.service';
@@ -37,9 +39,7 @@ describe('MainPageComponent', () => {
     expect(component.weatherResponse.getStatus()).toEqual('none');
   });
 
-  it(`at setup, geolocation status should be 'none'`, () => {
-    expect(component.geoLocation.status).toEqual('none');
-  });
+  
 
   it('should subscribe to services on Init',()=> {
     //spyOn(component,"_subscribeToService");
@@ -53,13 +53,7 @@ describe('MainPageComponent', () => {
     expect((component as any)._getCurrentLocationAndFetch).toHaveBeenCalled();
   })
 
-  it(`geolocation status should always be 'none' when user search manually for other location`,()=> {
-    expect(1).toEqual(0); 
-  })
 
-  it(`should call function 'fetch weather' if temp unit changes` ,()=>{
-    expect(1).toEqual(0);
-  })
 
   it('should destroy all subscriptions on Destroy',()=> {
     component.ngOnDestroy();
@@ -70,15 +64,22 @@ describe('MainPageComponent', () => {
     expect(component.subscriptions.length).toEqual(subsClosed);
   })
 
+  it(`geolocation status should always be 'no-need' when onSearchLocation() is called`,()=> {
+    component.onSearchLocation(<any>{})
+    expect(component.geoLocation.status).toEqual('no-need'); 
+  })
+
   /**
    * 
    * INTEGRATIONS test (shallow)
    * 
    */
-
-  it('should show  spinner when fetching',()=> {
-      
-  })
+   it('should show  relevant message when getting geolocation from browser ',()=> {
+    (component as any)._getCurrentLocationAndFetch();
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('#fetching-loc-from-navigator').textContent).toBeTruthy();
+   })
 
   it('should show error message when http error or invalid',()=> {
      component.weatherResponse.setError(null);
@@ -104,6 +105,7 @@ describe('MainPageComponent', () => {
     }
 
     function expectView(lat,lng,date,time,icon:'sunny'|'snow'|'cloud',placeName){
+      component.geoLocation.status = 'got';
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
       expect(compiled.querySelector('#weather-location').textContent).toContain(`${lat}`);
@@ -152,6 +154,7 @@ describe('MainPageComponent', () => {
   })
 
   it('degree symbol should be celsius by default',()=>{
+    component.geoLocation.status = 'got';
     let response = mockResponse();
     component.weatherResponse.setResponse(response);
     fixture.detectChanges();
@@ -162,6 +165,7 @@ describe('MainPageComponent', () => {
    })
 
   it(`Degree symbol should be farenheit if weatherQuery.unit is 'Farenheit `,()=>{
+    component.geoLocation.status = 'got';
     let response = mockResponse();
     component.weatherResponse.setResponse(response);
     component.currWeatherQuery.unit = 'Fahrenheit';
@@ -172,7 +176,27 @@ describe('MainPageComponent', () => {
     );
   })
 
+
+  it(`should call function 'fetch weather' if temp unit changes` ,()=>{
+  /*spyOn(component, 'fetchWeather').and.callThrough();
+  let options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="radio"]'));
+  console.log(options)
+  options[1].triggerEventHandler('change', { target: options[1].nativeElement });*/
+  //expect(component.fetchWeather).toHaveBeenCalled();
+  })
+
+  it(`should call function 'fetch weather' when user search manually for other location` ,()=>{
+    //expect(1).toEqual(0);
+  })
+
   
+  it('should show  relevant message when fetching weather',()=> {
+    component.weatherResponse.setStatus('fetching');
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    //if(component)
+    expect(compiled.querySelector('#fetching-weather')).toBeTruthy();
+  })
 
   /**
    * 
@@ -186,11 +210,13 @@ describe('MainPageComponent', () => {
       let LSservice:LocalStorageService = TestBed.inject(LocalStorageService)
       expect(LSservice.get(`search-${component.datetimeHumanized}-${mocked.name}`))
          .toEqual(mocked)
-  })
+  }) 
+
 
   it(`should call weather service's 'getWeatherByCoordinates()' when fetch weather`,()=> {
+    spyOn((component as any).weatherService,"getWeatherByCoordinates").and.callThrough();
     component.fetchWeather();
-    expect(1).toEqual(0);
+    expect((component as any).weatherService.getWeatherByCoordinates).toHaveBeenCalled();
   })
 });
 

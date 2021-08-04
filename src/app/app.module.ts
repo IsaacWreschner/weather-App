@@ -14,7 +14,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { GoogleAutocompleteDirective } from './directives/google-autocomplete.directive';
-
+import {MatMenu, MatMenuModule } from "@angular/material/menu"
+import {MatButtonModule} from "@angular/material/button"
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,9 @@ import { GoogleAutocompleteDirective } from './directives/google-autocomplete.di
     MatDividerModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatRadioModule
+    MatRadioModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,6 +4,7 @@
     <input 
       (input) = "filterSearches($event.target.value)"
       class = "_input"
+      id = "filter-searches"
       placeholder = "חפש לפי מיקום">
 </div>
 
@@ -11,8 +12,8 @@
 
 </div>
 <div *ngIf = "status === 'find'"
-    class="py-3  _gscroll-bar px-4" 
-     style="overflow:auto;min-height: 400px;max-height:800px;text-align: right;">
+    class="py-3  _gscroll px-4" 
+     style="overflow:auto;height: 400px;text-align: right;">
     <table class=" m-0">
       <tr>
         <th 
@@ -21,28 +22,27 @@
           >
           <div>מקום </div>
         </th>
-        <th 
+        <!--<th 
           style = "width:200px;text-align: start;"
           class="no-wrap  px-2 " 
           >
           <div>unix time</div>
-        </th>
+        </th>-->
         <th style = "width:150px;text-align: start;"  
             class="no-wrap  px-2 "
             >
           <div>מעלות</div>
         </th>
        </tr>
-
-      <tr *ngFor="let search of allSearches">
+      <tr *ngFor = "let search of allSearches">
         <td title="">
           {{search.name}},&nbsp;
           {{search.coord?.lat}},&nbsp;
           {{search.coord?.lon}}
         </td>
-        <td>
+        <!--<td>
             {{search.dt}}
-        </td>
+        </td>-->
         <td>
             {{search.main?.temp}}
         </td>

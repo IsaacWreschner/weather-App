@@ -11,3 +11,24 @@
 ._input:hover{
     background-color:rgb(250, 250, 250);
  }
+
+ #location-name{
+    font-size: 21px;
+ }
+
+ #location-coord{
+    font-weight: bold;
+     font-size: 20px;
+ }
+
+ #weather-datetime{
+    font-size: 20px;
+ }
+
+ #weather-temp{
+    font-size: 26px;
+ }
+
+ #icon-sunny,#icon-cloud, #icon-snow{
+    font-size: 60px;
+ }

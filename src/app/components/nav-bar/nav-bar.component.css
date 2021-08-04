@@ -4,8 +4,36 @@
 
 ul{
     cursor: pointer;
+    font-size: 20px;
 }
 
 ul:hover{
     color: rgb(4, 109, 170);
 }
+
+#desktop-tablet-menu{
+    display:none;
+}
+
+#mobile-menu{
+    display:none;
+}
+
+
+@media screen and (min-width:800px ){
+      #desktop-tablet-menu{
+          display:block;
+      }
+    }
+
+    @media screen and (min-width:800px) and  (max-width:1024px ){
+        ul{
+            font-size: 18px;
+        }
+      }
+
+ @media (max-width:800px ){
+        #mobile-menu{
+             display: block;
+        }
+      }
